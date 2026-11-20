@@ -15,7 +15,7 @@ public class FullTimeEmployee extends Employee {
         return basicSalary;
     }
 
-    public final void setBasicSalary(double basicSalary) {
+    public void setBasicSalary(double basicSalary) {
         if (basicSalary < 0) {
             throw new IllegalArgumentException("Basic salary must be a non-negative number.");
         }
@@ -26,7 +26,7 @@ public class FullTimeEmployee extends Employee {
         return bonus;
     }
 
-    public final void setBonus(double bonus) {
+    public void setBonus(double bonus) {
         if (bonus < 0) {
             throw new IllegalArgumentException("Bonus must be a non-negative number.");
         }

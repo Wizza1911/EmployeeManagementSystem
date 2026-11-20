@@ -1,36 +1,20 @@
 package Backend;
-
-import java.util.ArrayList;
 import FileHandler.*;
+import java.util.ArrayList;
 
 public class EmployeeManager {
-    private ArrayList<Employee> employees=new ArrayList<Employee>();
+    private ArrayList<Employee> employees;
     private FileHandler fileHandler;
-    public EmployeeManager(FileHandler fileHandler)
-    {
+
+    public EmployeeManager(FileHandler fileHandler) {
         if (fileHandler == null) {
             throw new IllegalArgumentException("FileHandler cannot be null.");
         }
         this.fileHandler = fileHandler;
         this.employees = fileHandler.loadEmployees();
-
     }
 
-     public Employee searchById(int id) {
-        for (Employee emp : employees) {
-            if (emp.getId() == id) {
-                return emp;
-            }
-        }
-        return null;
-    }
-
-
-
-
-
-
-   public void addEmployee(Employee emp) {
+    public void addEmployee(Employee emp) {
         if (emp == null) {
             throw new IllegalArgumentException("Employee cannot be null.");
         }
@@ -42,21 +26,13 @@ public class EmployeeManager {
         fileHandler.saveEmployees(employees);
     }
 
-
     public void updateEmployee(int originalId, Employee updatedEmp) {
         if (updatedEmp == null) {
             throw new IllegalArgumentException("Updated employee cannot be null.");
         }
 
-        int targetIndex = -1;
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getId() == originalId) {
-                targetIndex = i;
-                break;
-            }
-        }
-
-        if (targetIndex == -1) {
+        Employee existing = searchById(originalId);
+        if (existing == null) {
             throw new IllegalArgumentException("Employee with ID " + originalId + " not found.");
         }
 
@@ -64,6 +40,7 @@ public class EmployeeManager {
             throw new IllegalArgumentException("Employee ID " + updatedEmp.getId() + " already exists.");
         }
 
+        int targetIndex = employees.indexOf(existing);
         employees.set(targetIndex, updatedEmp);
         fileHandler.saveEmployees(employees);
     }
@@ -77,4 +54,30 @@ public class EmployeeManager {
         employees.remove(target);
         fileHandler.saveEmployees(employees);
     }
+
+    public Employee searchById(int id) {
+        for (Employee emp : employees) {
+            if (emp.getId() == id) {
+                return emp;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Employee> filterByDepartment(String departmentName) {
+        if (departmentName == null || departmentName.trim().isEmpty()) {
+            return employees;
+        }
+
+        ArrayList<Employee> filtered = new ArrayList<>();
+        String targetDept = departmentName.trim();
+        for (Employee emp : employees) {
+            if (emp.getDepartment().getDepartmentName().equalsIgnoreCase(targetDept)) {
+                filtered.add(emp);
+            }
+        }
+        return filtered;
+    }
+
+    
 }

@@ -15,7 +15,7 @@ public class PartTimeEmployee extends Employee {
         return hourlyRate;
     }
 
-    public final void setHourlyRate(double hourlyRate) {
+    public void setHourlyRate(double hourlyRate) {
         if (hourlyRate < 0) {
             throw new IllegalArgumentException("Hourly rate must be a non-negative number.");
         }
@@ -26,7 +26,7 @@ public class PartTimeEmployee extends Employee {
         return hoursWorked;
     }
 
-    public final void setHoursWorked(double hoursWorked) {
+    public void setHoursWorked(double hoursWorked) {
         if (hoursWorked < 0) {
             throw new IllegalArgumentException("Hours worked must be a non-negative number.");
         }

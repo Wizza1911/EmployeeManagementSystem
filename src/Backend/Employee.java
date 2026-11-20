@@ -19,7 +19,7 @@ public abstract class Employee {
         return id;
     }
 
-    public final void setId(int id) {
+    public void setId(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("Employee ID must be a positive integer.");
         }
@@ -30,9 +30,12 @@ public abstract class Employee {
         return fullName;
     }
 
-    public final void setFullName(String fullName) {
+    public void setFullName(String fullName) {
         if (fullName == null || fullName.trim().isEmpty()) {
             throw new IllegalArgumentException("Full name cannot be empty.");
+        }
+        if (fullName.contains(",")) {
+            throw new IllegalArgumentException("Full name cannot contain commas.");
         }
         this.fullName = fullName.trim();
     }
@@ -41,7 +44,7 @@ public abstract class Employee {
         return age;
     }
 
-    public final void setAge(int age) {
+    public void setAge(int age) {
         if (age <= 0) {
             throw new IllegalArgumentException("Age must be a positive integer.");
         }
@@ -52,7 +55,7 @@ public abstract class Employee {
         return department;
     }
 
-    public final void setDepartment(Department department) {
+    public void setDepartment(Department department) {
         if (department == null) {
             throw new IllegalArgumentException("Department cannot be empty.");
         }
@@ -63,11 +66,14 @@ public abstract class Employee {
         return position;
     }
 
-    public final void setPosition(String position) {
+    public void setPosition(String position) {
         if (position == null || position.trim().isEmpty()) {
             throw new IllegalArgumentException("Position cannot be empty.");
         }
-        this.position = position;
+        if (position.contains(",")) {
+            throw new IllegalArgumentException("Position cannot contain commas.");
+        }
+        this.position = position.trim();
     }
 
     public abstract double calculateSalary();
