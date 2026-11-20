@@ -1,12 +1,10 @@
 package Backend;
 
-import java.io.PrintWriter;
-
 public class PartTimeEmployee extends Employee {
     private double hourlyRate;
     private double hoursWorked;
 
-    public PartTimeEmployee(int id, String fullName, int age, String department,
+    public PartTimeEmployee(int id, String fullName, int age, Department department,
                             String position, double hourlyRate, double hoursWorked) {
         super(id, fullName, age, department, position);
         setHourlyRate(hourlyRate);
@@ -18,7 +16,7 @@ public class PartTimeEmployee extends Employee {
     }
 
     public final void setHourlyRate(double hourlyRate) {
-        if ( hourlyRate < 0) {
+        if (hourlyRate < 0) {
             throw new IllegalArgumentException("Hourly rate must be a non-negative number.");
         }
         this.hourlyRate = hourlyRate;
@@ -29,7 +27,7 @@ public class PartTimeEmployee extends Employee {
     }
 
     public final void setHoursWorked(double hoursWorked) {
-        if ( hoursWorked < 0) {
+        if (hoursWorked < 0) {
             throw new IllegalArgumentException("Hours worked must be a non-negative number.");
         }
         this.hoursWorked = hoursWorked;
@@ -37,17 +35,17 @@ public class PartTimeEmployee extends Employee {
 
     @Override
     public double calculateSalary() {
-        return hourlyRate*hoursWorked;
+        return hourlyRate * hoursWorked;
     }
 
     @Override
-    public boolean isFullTime() { return false; }
+    public boolean isFullTime() {
+        return false;
+    }
 
     @Override
     public String toString() {
         return super.toString() + ",,," + this.getHourlyRate() + "," +
-                    this.getHoursWorked() ;
+                this.getHoursWorked();
     }
-
-   
 }
