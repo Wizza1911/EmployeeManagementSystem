@@ -1,15 +1,13 @@
 package Backend;
 
-import java.io.PrintWriter;
-
 public abstract class Employee {
     private int id;
     private String fullName;
     private int age;
-    private String department;
+    private Department department;
     private String position;
 
-    public Employee(int id, String fullName, int age, String department, String position) {
+    public Employee(int id, String fullName, int age, Department department, String position) {
         setId(id);
         setFullName(fullName);
         setAge(age);
@@ -44,11 +42,11 @@ public abstract class Employee {
         }
         this.age = age;
     }
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
-    public  void setDepartment(String department) {
-        if (department == null || department.isEmpty()) {
+    public  void setDepartment(Department department) {
+        if (department == null) {
             throw new IllegalArgumentException("Department cannot be empty.");
         }
         this.department = department;
@@ -67,7 +65,7 @@ public abstract class Employee {
     public String toString(){
 
                    return this.getId() + (this.isFullTime()?",FullTime,":",PartTime,") + this.getFullName() + "," +
-                            this.getAge() + "," + this.getDepartment() + "," +
+                            this.getAge() + "," + this.getDepartment().getDepartmentName() + "," +
                             this.getPosition();
 
         }
