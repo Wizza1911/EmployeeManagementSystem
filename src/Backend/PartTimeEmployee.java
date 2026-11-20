@@ -1,5 +1,7 @@
 package Backend;
 
+import java.io.PrintWriter;
+
 public class PartTimeEmployee extends Employee {
     private double hourlyRate;
     private double hoursWorked;
@@ -36,6 +38,15 @@ public class PartTimeEmployee extends Employee {
     @Override
     public double calculateSalary() {
         return hourlyRate*hoursWorked;
+    }
+
+    @Override
+    public boolean isFullTime() { return false; }
+
+    @Override
+    public String toString() {
+        return super.toString() + ",,," + this.getHourlyRate() + "," +
+                    this.getHoursWorked() ;
     }
 
    

@@ -1,5 +1,7 @@
 package Backend;
 
+import java.io.PrintWriter;
+
 public class FullTimeEmployee extends Employee {
     private double basicSalary;
     private double bonus;
@@ -38,5 +40,13 @@ public class FullTimeEmployee extends Employee {
         return basicSalary + bonus;
     }
 
-   
+    @Override
+    public boolean isFullTime() { return true; }
+
+    @Override
+    public String toString() {
+       return super.toString() + "," + this.getBasicSalary() + "," +
+                    this.getBonus() + ",,";
+
+    }
 }

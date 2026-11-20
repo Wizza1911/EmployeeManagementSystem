@@ -2,47 +2,25 @@ package FileHandler;
 
 import java.io.*;
 import java.util.*;
+import Backend.*;
 
 
 
-public class fileHandler {
-
-
+public class FileHandler {
 
     public static void saveEmployees(ArrayList<Employee> employees) {
 
         ArrayList<Department> departments = loadDepartments();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter("Data.csv"))) {
-
+            // first line for formating the columns
+            //it creates a new file if this one doesn't exist
             writer.println(
                 "id,type,fullName,age,department,position,basicSalary,bonus,hourlyRate,hoursWorked"
             );
 
-            for (Employee e : employees) {
-
-                if (e instanceof FullTimeEmployee) {
-                    FullTimeEmployee f = (FullTimeEmployee) e;
-
-                    writer.println(
-                        f.getId() + ",FullTime," + f.getFullName() + "," +
-                        f.getAge() + "," + f.getDepartment() + "," +
-                        f.getPosition() + "," + f.getBasicSalary() + "," +
-                        f.getBonus() + ",,"
-                    );
-
-                }
-                else if (e instanceof PartTimeEmployee) {
-                    PartTimeEmployee p = (PartTimeEmployee) e;
-
-                    writer.println(
-                        p.getId() + ",PartTime," + p.getFullName() + "," +
-                        p.getAge() + "," + p.getDepartment() + "," +
-                        p.getPosition() + ",,," + p.getHourlyRate() + "," +
-                        p.getHoursWorked()
-                    );
-                }
-            }
+            for (Employee e : employees)
+                writer.println(e.toString());
 
             writer.println("DepartmentID,DepartmentName");
 
@@ -55,14 +33,10 @@ public class fileHandler {
         }
         catch (IOException e) {
             System.out.println("Error saving employees: " + e.getMessage());
+            //The only reason for error is that the disk space is full or os error
+            // hence java won't compile without it
         }
     }
-
-
-
-
-
-
 
     public static ArrayList<Employee> loadEmployees() {
 
@@ -164,12 +138,6 @@ public class fileHandler {
         return employees;
     }
 
-
-
-
-
-
-
     public static void saveDepartments(ArrayList<Department> departments) {
 
         ArrayList<Employee> employees = loadEmployees();
@@ -218,12 +186,6 @@ public class fileHandler {
             System.out.println("Error saving departments: " + e.getMessage());
         }
     }
-
-
-
-
-
-
 
     public static ArrayList<Department> loadDepartments() {
 
@@ -280,85 +242,5 @@ public class fileHandler {
         }
 
         return departments;
-    }
-
-
-
-
-
-
-    public static void saveLoginData(String username, String password) {
-
-        if (username == null || password == null ||
-            username.trim().isEmpty() || password.trim().isEmpty()) {
-
-            System.out.println("Username and password cannot be empty!");
-            return;
-        }
-
-        username = username.trim();
-
-      
-        if (username.contains(",") || password.contains(",") ||
-            username.contains("\n") || username.contains("\r") ||
-            password.contains("\n") || password.contains("\r")) {
-
-            System.out.println("Invalid characters!");
-            return;
-        }
-
-       
-        ArrayList<String[]> users = loadLoginData();
-
-        for (String[] user : users) {
-
-            if (user[0].equalsIgnoreCase(username)) {
-                System.out.println("Username already exists!");
-                return;
-            }
-        }
-
-        try (PrintWriter writer = new PrintWriter(
-                new FileWriter("LoginData.csv", true))) {
-
-            writer.println(username + "," + password);
-            System.out.println("Account saved successfully!");
-
-        }
-        catch (IOException e) {
-            System.out.println("Error saving login data: " + e.getMessage());
-        }
-    }
-
-
-
-
-
-
-    public static ArrayList<String[]> loadLoginData() {
-
-        ArrayList<String[]> loginData = new ArrayList<>();
-
-        try (Scanner sc = new Scanner(new File("LoginData.csv"))) {
-
-            while (sc.hasNextLine()) {
-
-                String line = sc.nextLine();
-                String[] data = line.split(",");
-
-                if (data.length == 2 && !data[0].trim().isEmpty() && !data[1].trim().isEmpty()) {
-
-                    loginData.add(new String[]{
-                        data[0].trim(),
-                        data[1]
-                    });
-                }
-            }
-
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("Login data file not found.");
-        }
-        return loginData;
     }
 }

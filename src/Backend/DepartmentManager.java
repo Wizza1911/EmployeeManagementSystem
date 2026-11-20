@@ -1,5 +1,6 @@
 package Backend;
 import java.util.ArrayList;
+import FileHandler.*;
 public class DepartmentManager {
 private ArrayList<Department>  departments = new ArrayList<Department>();
 private FileHandler fileHandler;

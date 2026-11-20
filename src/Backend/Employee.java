@@ -1,5 +1,7 @@
 package Backend;
 
+import java.io.PrintWriter;
+
 public abstract class Employee {
     private int id;
     private String fullName;
@@ -14,6 +16,7 @@ public abstract class Employee {
         setDepartment(department);
         setPosition(position);     
     }
+
     public int getId() {
         return id;
     }
@@ -44,7 +47,6 @@ public abstract class Employee {
     public String getDepartment() {
         return department;
     }
-
     public  void setDepartment(String department) {
         if (department == null || department.isEmpty()) {
             throw new IllegalArgumentException("Department cannot be empty.");
@@ -61,6 +63,12 @@ public abstract class Employee {
         this.position = position;
     }
     public abstract double calculateSalary();
+    public abstract boolean isFullTime();
+    public String toString(){
 
+                   return this.getId() + (this.isFullTime()?",FullTime,":",PartTime,") + this.getFullName() + "," +
+                            this.getAge() + "," + this.getDepartment() + "," +
+                            this.getPosition();
 
+        }
 }
