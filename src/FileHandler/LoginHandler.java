@@ -3,35 +3,47 @@ package FileHandler;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import Helper.*;
 public class LoginHandler {
-    public static void saveLoginData(String username, String password) {
-
-        if (username == null || password == null ||
-                username.trim().isEmpty() || password.trim().isEmpty()) {
-            System.out.println("Username and password cannot be empty!");
-            return;
+    public static boolean saveAllLoginData(ArrayList<String[]> loginData) {
+        for (String[] account: loginData ) {
+            if (account == null || account.length != 2)
+                return false;
+            String username = account[0];
+            String password = account[1];
+            if (!ValidationHelper.isValidUsername(username)
+                    && !ValidationHelper.isValidPassword(password))
+                return false;
         }
-        if (username.contains(",") || password.contains(",")) {
-
-            System.out.println("Invalid characters!");
-            return;
-        }
-        ArrayList<String[]> users = loadLoginData();
-        for (String[] user : users) {
-
-            if (user[0].equalsIgnoreCase(username)) {
-                System.out.println("Username already exists!");
-                return;
-            }
-        }
-
         try (PrintWriter writer = new PrintWriter(
-                new FileWriter("LoginData.csv", true))) {
-            writer.println(username + "," + password);
+                new FileWriter("LoginData.csv"))) {
+            for (String[] account: loginData) {
+                String username = account[0];
+                String password = account[1];
+                writer.println(username + "," + password);
+            }
         }
         catch (IOException e) {
             System.out.println("Error saving login data: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    public static boolean saveLoginData(String username, String password) {
+
+        if (!ValidationHelper.isValidUsername(username)
+                || !ValidationHelper.isValidPassword(password))
+            return false;
+
+        try (PrintWriter writer = new PrintWriter(
+                new FileWriter("LoginData.csv", true))) {
+
+            writer.println(username + "," + password);
+            return true;
+
+        } catch (IOException e) {
+            System.out.println("Error saving login data: " + e.getMessage());
+            return false;
         }
     }
 
@@ -41,11 +53,11 @@ public class LoginHandler {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] data = line.split(",");
-                if (data.length == 2 && !data[0].trim().isEmpty() && !data[1].trim().isEmpty())
-                    loginData.add(new String[]{
-                            data[0].trim(),
-                            data[1]
-                    });
+                if (data.length == 2 && ValidationHelper.isValidUsername(data[0])
+                        && ValidationHelper.isValidPassword(data[1]))
+                    loginData.add(new String[]
+                            {data[0],
+                            data[1]});
             }
         }
         catch (FileNotFoundException e) {
