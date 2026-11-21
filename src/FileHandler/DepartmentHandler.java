@@ -2,7 +2,6 @@ package FileHandler;
 
 import Backend.Department;
 import Helper.ValidationHelper;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
