@@ -30,6 +30,7 @@ public class Department {
         }
         this.departmentName = departmentName;
     }
-
-  
+    public String toString() {
+        return  getDepartmentId() +","+ getDepartmentName();
+    }
 }

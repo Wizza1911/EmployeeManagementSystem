@@ -6,7 +6,7 @@ public class FullTimeEmployee extends Employee {
     private double basicSalary;
     private double bonus;
     
-    public FullTimeEmployee(int id, String fullName, int age, String department,
+    public FullTimeEmployee(int id, String fullName, int age, Department department,
                             String position, double basicSalary, double bonus) {
         super(id, fullName, age, department, position);
         setBasicSalary(basicSalary);

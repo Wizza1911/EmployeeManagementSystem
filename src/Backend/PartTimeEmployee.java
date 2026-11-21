@@ -6,7 +6,7 @@ public class PartTimeEmployee extends Employee {
     private double hourlyRate;
     private double hoursWorked;
 
-    public PartTimeEmployee(int id, String fullName, int age, String department,
+    public PartTimeEmployee(int id, String fullName, int age,Department department,
                             String position, double hourlyRate, double hoursWorked) {
         super(id, fullName, age, department, position);
         setHourlyRate(hourlyRate);
