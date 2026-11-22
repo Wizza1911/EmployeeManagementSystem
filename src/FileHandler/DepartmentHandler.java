@@ -54,7 +54,7 @@ public class DepartmentHandler implements FileOperator<Department> {
                     }
                     String idStr = data[0].trim();
                     String departmentName = data[1].trim();
-                    if (!ValidationHelper.isValidStringPostiveInt(idStr)
+                    if (!ValidationHelper.isValidStringPositiveInt(idStr)
                             || !ValidationHelper.isValidString(departmentName)) {
                         System.out.println("Skipping invalid department record.");
                         continue;

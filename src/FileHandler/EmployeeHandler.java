@@ -70,11 +70,11 @@ public class EmployeeHandler implements FileOperator<Employee>{
                         System.out.println("Skipping invalid employee record.");
                         continue;
                     }
-                    if(!ValidationHelper.isValidStringPostiveInt(data[0])
+                    if(!ValidationHelper.isValidStringPositiveInt(data[0])
                         ||!ValidationHelper.isValidString(data[1])
                         ||!ValidationHelper.isValidName(data[2])
-                        ||!ValidationHelper.isValidStringPostiveInt(data[3])
-                        ||!ValidationHelper.isValidStringPostiveInt(data[4])
+                        ||!ValidationHelper.isValidStringPositiveInt(data[3])
+                        ||!ValidationHelper.isValidStringPositiveInt(data[4])
                         ||!ValidationHelper.isValidString(data[5])
                         ||!ValidationHelper.isValidName(data[6])){
                         System.out.println("Skipping invalid employee record.");
@@ -92,21 +92,21 @@ public class EmployeeHandler implements FileOperator<Employee>{
                         continue;
                     }
                     if(data[1].equals("FullTime")){
-                        if(!ValidationHelper.isValidStringPostiveInt(data[7])
-                            ||!ValidationHelper.isValidStringNonNegativeInt(data[8])){
+                        if(!ValidationHelper.isValidStringPositiveDouble(data[7])
+                            ||!ValidationHelper.isValidStringNonNegativeDouble(data[8])){
                             System.out.println("Skipping invalid employee record.");
                             continue;}
-                        int basicSalary = Integer.parseInt(data[7].trim());
-                        int bonus = Integer.parseInt(data[8].trim());
+                        double basicSalary = Double.parseDouble(data[7].trim());
+                        double bonus = Double.parseDouble(data[8].trim());
                         employees.add(new FullTimeEmployee(id, fullName, age, department, position, basicSalary, bonus));
                     }
                     if(data[1].equals("PartTime")){
-                        if(!ValidationHelper.isValidStringPostiveInt(data[9])
-                                ||!ValidationHelper.isValidStringNonNegativeInt(data[10])){
+                        if(!ValidationHelper.isValidStringPositiveDouble(data[9])
+                                ||!ValidationHelper.isValidStringNonNegativeDouble(data[10])){
                             System.out.println("Skipping invalid employee record.");
                             continue;}
-                        int hourlyRate = Integer.parseInt(data[9].trim());
-                        int workedHours = Integer.parseInt(data[10].trim());
+                        double hourlyRate = Double.parseDouble(data[9].trim());
+                        double workedHours = Double.parseDouble(data[10].trim());
                         employees.add(new PartTimeEmployee(id, fullName, age, department, position, hourlyRate, workedHours));
                     }
                 }
