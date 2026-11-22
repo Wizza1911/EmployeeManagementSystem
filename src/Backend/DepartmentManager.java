@@ -1,55 +1,59 @@
 package Backend;
+
+import FileHandler.FileOperator;
 import java.util.ArrayList;
-import FileHandler.*;
+
 public class DepartmentManager {
-private ArrayList<Department>  departments = new ArrayList<Department>();
-private FileHandler fileHandler;
+    private ArrayList<Department> departments;
+    private FileOperator<Department> departmentHandler;
 
-public DepartmentManager(){
-   fileHandler = new FileHandler();
-   departments = fileHandler.loadDepartments();
-}
-
-public ArrayList<Department> getDepartments() {
-    return departments;
-}
-
-public void addDepartments(Department department) {
-    if(department==null){
-        throw new IllegalArgumentException("can not find this department");
+    public DepartmentManager(FileOperator<Department> departmentHandler) {
+        if (departmentHandler == null) {
+            throw new IllegalArgumentException("DepartmentHandler cannot be null.");
+        }
+        this.departmentHandler = departmentHandler;
+        this.departments = departmentHandler.load();
     }
-    for(Department d:departments){
-        if(d.getDepartmentId()==department.getDepartmentId()){
-            throw new IllegalArgumentException("Department ID already exists.");
+
+    public ArrayList<Department> getDepartments() {
+        return departments;
+    }
+
+    public void addDepartment(Department department) {
+        if (department == null) {
+            throw new IllegalArgumentException("Department cannot be null.");
         }
-        if(d.getDepartmentName().trim().equalsIgnoreCase(department.getDepartmentName().trim())){
-            throw new IllegalArgumentException("Department name already exists.");
+        for (Department d : departments) {
+            if (d.getDepartmentId() == department.getDepartmentId()) {
+                throw new IllegalArgumentException("Department ID already exists.");
+            }
+            if (d.getDepartmentName().trim().equalsIgnoreCase(department.getDepartmentName().trim())) {
+                throw new IllegalArgumentException("Department name already exists.");
+            }
         }
+
         departments.add(department);
-        fileHandler.saveDepartments(departments);
+        departmentHandler.save(department);
     }
-    
-}
-public Department findDepartmentById(int id) {
 
-    for (Department d : departments) {
-        if (d.getDepartmentId() == id) {
-            return d;
+    public Department findDepartmentById(int id) {
+        for (Department d : departments) {
+            if (d.getDepartmentId() == id) {
+                return d;
+            }
         }
+        return null;
     }
 
-    return null;
-}
-
-
-public Department findDepartmentByName(String name) {
-
-    for (Department d : departments) {
-        if (d.getDepartmentName().equalsIgnoreCase(name.trim())) {
-            return d;
+    public Department findDepartmentByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return null;
         }
+        for (Department d : departments) {
+            if (d.getDepartmentName().trim().equalsIgnoreCase(name.trim())) {
+                return d;
+            }
+        }
+        return null;
     }
-
-    return null;
-}
 }

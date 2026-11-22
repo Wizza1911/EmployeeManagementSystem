@@ -63,9 +63,9 @@ public abstract class Employee {
     public abstract double calculateSalary();
     public abstract boolean isFullTime();
     public String toString(){
-       return this.getId() + (this.isFullTime()?",FullTime,":",PartTime,") + this.getFullName() + "," +
-                this.getAge() + "," + this.getDepartment().toString() + "," +
-                this.getPosition();
-        }
+       return this.getId() + (this.isFullTime() ? ",FullTime," : ",PartTime,") + this.getFullName() + "," +
+            this.getAge() + "," + this.getDepartment().getDepartmentId() + "," +
+            this.getDepartment().getDepartmentName() + "," + this.getPosition();
         // "id,type,fullName,age,departmentId,departmentName,position||,basicSalary,bonus,hourlyRate,hoursWorked"
+}
 }

@@ -1,20 +1,21 @@
 package Backend;
 import FileHandler.*;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
 
 public class EmployeeManager {
     private ArrayList<Employee> employees;
-    private FileHandler fileHandler;
+    private FileOperator<Employee> employeeHandler;   
 
-    public EmployeeManager(FileHandler fileHandler) {
-        if (fileHandler == null) {
-            throw new IllegalArgumentException("FileHandler cannot be null.");
+    public EmployeeManager(FileOperator<Employee> employeeHandler) {
+        if (employeeHandler == null) {
+            throw new IllegalArgumentException("EmployeeHandler cannot be null.");
         }
-        this.fileHandler = fileHandler;
-        this.employees = fileHandler.loadEmployees();
+       this.employeeHandler = employeeHandler;
+       this.employees = employeeHandler.load();
     }
 
-    public void addEmployee(Employee emp) {
+   public void addEmployee(Employee emp) {
         if (emp == null) {
             throw new IllegalArgumentException("Employee cannot be null.");
         }
@@ -23,10 +24,10 @@ public class EmployeeManager {
         }
 
         employees.add(emp);
-        fileHandler.saveEmployees(employees);
+        employeeHandler.save(emp);
     }
 
-    public void updateEmployee(int originalId, Employee updatedEmp) {
+   public void updateEmployee(int originalId, Employee updatedEmp) {
         if (updatedEmp == null) {
             throw new IllegalArgumentException("Updated employee cannot be null.");
         }
@@ -42,7 +43,7 @@ public class EmployeeManager {
 
         int targetIndex = employees.indexOf(existing);
         employees.set(targetIndex, updatedEmp);
-        fileHandler.saveEmployees(employees);
+        employeeHandler.saveAll(employees);
     }
 
     public void deleteEmployee(int id) {
@@ -52,10 +53,10 @@ public class EmployeeManager {
         }
 
         employees.remove(target);
-        fileHandler.saveEmployees(employees);
+        employeeHandler.saveAll(employees);
     }
 
-    public Employee searchById(int id) {
+   public Employee searchById(int id) {
         for (Employee emp : employees) {
             if (emp.getId() == id) {
                 return emp;
@@ -77,6 +78,9 @@ public class EmployeeManager {
             }
         }
         return filtered;
+    }
+    public ArrayList<Employee> getAllEmployees() {
+        return employees;
     }
 
     

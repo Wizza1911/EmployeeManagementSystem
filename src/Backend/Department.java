@@ -13,7 +13,7 @@ public class Department {
         return departmentId;
     }
 
-    public final void setDepartmentId(int departmentId) {
+    public void setDepartmentId(int departmentId) {
         if (departmentId <= 0) {
             throw new IllegalArgumentException("Department ID must be a positive integer.");
         }
@@ -24,13 +24,18 @@ public class Department {
         return departmentName;
     }
 
-    public final void setDepartmentName(String departmentName) {
-        if (departmentName == null || departmentName.isEmpty()) {
+    public void setDepartmentName(String departmentName) {
+        if (departmentName == null || departmentName.trim().isEmpty()) {
             throw new IllegalArgumentException("Department name cannot be empty.");
         }
-        this.departmentName = departmentName;
+        if (departmentName.contains(",")) {
+            throw new IllegalArgumentException("Department name cannot contain commas.");
+        }
+        this.departmentName = departmentName.trim();
     }
+
+    @Override
     public String toString() {
-        return  getDepartmentId() +","+ getDepartmentName();
+        return getDepartmentId() + "," + getDepartmentName();
     }
 }
