@@ -6,6 +6,9 @@ import java.util.Scanner;
 import Helper.*;
 
 public class AccountHandler implements FileOperator<String[]>{
+
+    private static final String LOGIN_DATA_CSV = "../Data/LoginData.csv";
+
     @Override
     public boolean save(String[] account ) {
         if(account==null || account.length!=2)
@@ -17,7 +20,7 @@ public class AccountHandler implements FileOperator<String[]>{
             return false;
 
         try (PrintWriter writer = new PrintWriter(
-                new FileWriter("LoginData.csv", true))) {
+                new FileWriter(LOGIN_DATA_CSV, true))) {
 
             writer.println(username + "," + password);
             return true;
@@ -41,7 +44,7 @@ public class AccountHandler implements FileOperator<String[]>{
                 return false;
         }
         try (PrintWriter writer = new PrintWriter(
-                new FileWriter("LoginData.csv"))) {
+                new FileWriter(LOGIN_DATA_CSV))) {
             for (String[] account: loginData) {
                 String username = account[0];
                 String password = account[1];
@@ -57,7 +60,7 @@ public class AccountHandler implements FileOperator<String[]>{
     @Override
     public ArrayList<String[]> load() {
         ArrayList<String[]> loginData = new ArrayList<>();
-        File file = new File("LoginData.csv");
+        File file = new File(LOGIN_DATA_CSV);
         try {
             if (file.createNewFile()) {
                 System.out.println("Login data file created successfully.");

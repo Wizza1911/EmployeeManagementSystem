@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DepartmentHandler implements FileOperator<Department> {
+
+    private static final String DEPARTMENTS_CSV = "../Data/Departments.csv";
+
     @Override
     public boolean save(Department department) {
         if(department==null)
             return false;
-        try(PrintWriter writer = new PrintWriter(new FileWriter("Departments.csv",true))) {
+        try(PrintWriter writer = new PrintWriter(new FileWriter(DEPARTMENTS_CSV,true))) {
             writer.println(department.toString());
         }
         catch (IOException e) {
@@ -24,7 +27,7 @@ public class DepartmentHandler implements FileOperator<Department> {
     public boolean saveAll(ArrayList<Department> departments) {
         if(departments==null)
             return false;
-        try (PrintWriter writer = new PrintWriter(new FileWriter("Departments.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(DEPARTMENTS_CSV))) {
             for (Department d : departments)
                 if(d!=null)
                     writer.println(d.toString());
@@ -38,7 +41,7 @@ public class DepartmentHandler implements FileOperator<Department> {
     @Override
     public ArrayList<Department> load() {
         ArrayList<Department> departments = new ArrayList<>();
-        File file = new File("Departments.csv");
+        File file = new File(DEPARTMENTS_CSV);
         try {
             if (file.createNewFile()) {
                 System.out.println("Departments file created successfully.");

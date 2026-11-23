@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 
 public class EmployeeHandler implements FileOperator<Employee>{
+    private static final String EMPLOYEES_CSV = "../Data/Employees.csv";
     private ArrayList<Department> departments;
     public EmployeeHandler(ArrayList<Department> departments) {
         this.departments = (departments != null) ? departments : new ArrayList<>();
@@ -25,7 +26,7 @@ public class EmployeeHandler implements FileOperator<Employee>{
     @Override
     public boolean save(Employee employee){
         if(employee == null) return false;
-        try (PrintWriter writer = new PrintWriter(new FileWriter("Employees.csv",true))){
+        try (PrintWriter writer = new PrintWriter(new FileWriter(EMPLOYEES_CSV,true))){
             writer.println(employee.toString());
         }
         catch(IOException e){
@@ -37,7 +38,7 @@ public class EmployeeHandler implements FileOperator<Employee>{
     @Override
     public boolean saveAll(ArrayList<Employee> employees) {
         if(employees==null) return false;
-        try (PrintWriter writer = new PrintWriter(new FileWriter("Employees.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(EMPLOYEES_CSV))) {
             //it creates a new file if this one doesn't exist
             for (Employee e : employees)
                 if (e!=null)
@@ -54,7 +55,7 @@ public class EmployeeHandler implements FileOperator<Employee>{
     @Override
     public ArrayList<Employee> load() {
         ArrayList<Employee> employees = new ArrayList<>();
-        File file = new File("Employees.csv");
+        File file = new File(EMPLOYEES_CSV);
         try {
             if (file.createNewFile()) {
                 System.out.println("Employees data file created successfully.");
