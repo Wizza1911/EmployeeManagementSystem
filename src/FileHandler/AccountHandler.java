@@ -7,7 +7,7 @@ import Helper.*;
 
 public class AccountHandler implements FileOperator<String[]>{
 
-    private static final String LOGIN_DATA_CSV = "../Data/LoginData.csv";
+    private static final String LOGIN_DATA_CSV = "Data/LoginData.csv";
 
     @Override
     public boolean save(String[] account ) {

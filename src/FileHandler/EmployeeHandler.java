@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 
 public class EmployeeHandler implements FileOperator<Employee>{
-    private static final String EMPLOYEES_CSV = "../Data/Employees.csv";
+    private static final String EMPLOYEES_CSV = "Data/Employees.csv";
     private ArrayList<Department> departments;
     public EmployeeHandler(ArrayList<Department> departments) {
         this.departments = (departments != null) ? departments : new ArrayList<>();

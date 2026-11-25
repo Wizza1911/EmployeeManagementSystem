@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class DepartmentHandler implements FileOperator<Department> {
 
-    private static final String DEPARTMENTS_CSV = "../Data/Departments.csv";
+    private static final String DEPARTMENTS_CSV = "Data/Departments.csv";
 
     @Override
     public boolean save(Department department) {
