@@ -14,7 +14,6 @@ public class Main {
             
             DepartmentHandler deptHandler = new DepartmentHandler();
             DepartmentManager deptManager = new DepartmentManager(deptHandler);
-
            
             EmployeeHandler empHandler = new EmployeeHandler(deptManager.getDepartments());
             EmployeeManager empManager = new EmployeeManager(empHandler);

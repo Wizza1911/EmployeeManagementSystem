@@ -12,6 +12,7 @@ public class MainFrame extends JFrame {
     private final EmployeeManager empManager;
     private final DepartmentManager deptManager;
     private final AccountHandler accountHandler;
+    private EmployeeSearchPanel employeeSearchPanel;
 
     private JPanel currentCenterPanel;
 
@@ -26,9 +27,11 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-    
+        this.employeeSearchPanel = new EmployeeSearchPanel(empManager, deptManager);
+
         JPanel sidebar = createSidebar();
         add(sidebar, BorderLayout.WEST);
+
 
         
         switchCenterPanel(createPlaceholderPanel("Dashboard Overview"));
@@ -74,9 +77,10 @@ public class MainFrame extends JFrame {
         );
 
         JButton viewEmpBtn = createNavButton("View Employees");
-        viewEmpBtn.addActionListener(e ->
-                switchCenterPanel(createPlaceholderPanel("View / Search Employees Panel"))
-        );
+        viewEmpBtn.addActionListener(e -> {
+            employeeSearchPanel.refreshData();
+            switchCenterPanel(employeeSearchPanel);
+        });
 
         JButton deptBtn = createNavButton("Departments");
         deptBtn.addActionListener(e ->
