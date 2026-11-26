@@ -199,15 +199,7 @@ public class DashboardPanel extends JPanel {
                 if (d == null) {
                     continue;
                 }
-                int count = 0;
-                for (Employee emp : employees) {
-                    if (emp != null && emp.getDepartment() != null
-                            && emp.getDepartment().getDepartmentId() == d.getDepartmentId()
-                            && emp.getDepartment().getDepartmentName().trim()
-                            .equalsIgnoreCase(d.getDepartmentName().trim())) {
-                        count++;
-                    }
-                }
+                int count = d.getCount();
                 matchedEmployees += count;
 
                 String key = d.getDepartmentName().trim().toLowerCase();

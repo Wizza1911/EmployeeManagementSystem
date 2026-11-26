@@ -41,4 +41,12 @@ public class LoginManager {
         );
         return index>=0?index:-1;
     }
+    public boolean checkAccount(String username, String password) {
+        if (username == null || password==null)
+            throw new IllegalArgumentException("Account cannot have nulls.");
+        int index = searchByUsername(username);
+        if (index == -1)
+            throw new IllegalArgumentException("Account " + username + " doesn't exist.");
+        return accounts.get(index)[1].equals(password);
+    }
 }

@@ -53,7 +53,7 @@ public class ValidationHelper {
         //3 to 20 characters allowed a to z, A TO Z, 0 to 9 and _ are allowed
     }
     public static boolean isValidPassword(String password) {
-        return isValidString(password)&& password.length() >= 8
+        return isValidString(password)&& password.length() >= 5
                 && password.length() <= 64;
     }
 }

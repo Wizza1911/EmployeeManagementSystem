@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
     private final EmployeeAdderPanel employeeAdderPanel;
     private final EmployeeUpdatePanel employeeUpdatePanel;
     private final DashboardPanel dashboardPanel;
+    private final DepartmentPanel departmentPanel;
 
     private JPanel currentCenterPanel;
 
@@ -36,11 +37,12 @@ public class MainFrame extends JFrame {
         this.employeeAdderPanel = new EmployeeAdderPanel(empManager, deptManager);
         this.employeeUpdatePanel = new EmployeeUpdatePanel(empManager, deptManager);
         this.dashboardPanel = new DashboardPanel(empManager, deptManager);
+        this.departmentPanel = new DepartmentPanel(deptManager, empManager);
 
         JPanel sidebar = createSidebar();
         add(sidebar, BorderLayout.WEST);
 
-        switchCenterPanel(createPlaceholderPanel("Dashboard Overview"));
+        switchCenterPanel(dashboardPanel);
     }
 
     private void switchCenterPanel(JPanel newPanel) {
@@ -92,9 +94,9 @@ public class MainFrame extends JFrame {
         });
 
         JButton deptBtn = createNavButton("Departments");
-        deptBtn.addActionListener(e ->
-                switchCenterPanel(createPlaceholderPanel("Department Management Panel"))
-        );
+        deptBtn.addActionListener(e -> {
+            departmentPanel.refreshData();
+            switchCenterPanel(departmentPanel);});
 
         sidebar.add(dashboardBtn);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));

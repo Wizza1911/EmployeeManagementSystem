@@ -12,7 +12,8 @@ public abstract class Employee {
         setFullName(fullName);
         setAge(age);
         setDepartment(department);
-        setPosition(position);     
+        setPosition(position);
+        department.setCount(department.getCount() + 1);
     }
 
     public int getId() {

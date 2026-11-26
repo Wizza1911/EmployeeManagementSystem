@@ -370,12 +370,13 @@ public class EmployeeUpdatePanel extends JPanel {
         int age = Integer.parseInt(ageText);
 
         // 4. Validate Department Selection
+        String selectedDeptName = (String) departmentNameCombo.getSelectedItem();
         Integer selectedDeptId = (Integer) departmentIdCombo.getSelectedItem();
-        if (selectedDeptId == null) {
-            showWarning("Please select a valid Department ID.");
+        if (selectedDeptName == null || selectedDeptId == null) {
+            showWarning("Please select a valid Department and Department ID.");
             return;
         }
-        Department selectedDept = departmentManager.findDepartmentById(selectedDeptId);
+        Department selectedDept = departmentManager.findDepartment(selectedDeptId, selectedDeptName);
         if (selectedDept == null) {
             showWarning("Selected department was not found.");
             return;
