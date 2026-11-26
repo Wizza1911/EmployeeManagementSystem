@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class LoginManager {
-    private ArrayList<String[]> accounts;
-    private FileOperator<String[]> accountHandler;
+    private final ArrayList<String[]> accounts;
+    private final FileOperator<String[]> accountHandler;
     public LoginManager(FileOperator<String[]> accountHandler) {
         if(accountHandler == null)
             throw new IllegalArgumentException("accountHandler cannot be null");

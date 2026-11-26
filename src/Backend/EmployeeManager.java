@@ -41,6 +41,7 @@ public class EmployeeManager {
         }
 
         int targetIndex = employees.indexOf(existing);
+        employees.get(targetIndex).removeDepartment();
         employees.set(targetIndex, updatedEmp);
         employeeHandler.saveAll(employees);
     }

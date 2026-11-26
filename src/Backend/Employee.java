@@ -13,7 +13,6 @@ public abstract class Employee {
         setAge(age);
         setDepartment(department);
         setPosition(position);
-        department.setCount(department.getCount() + 1);
     }
 
     public int getId() {
@@ -50,7 +49,16 @@ public abstract class Employee {
         if (department == null) {
             throw new IllegalArgumentException("Department cannot be empty.");
         }
+        if (this.department != null)
+            this.department.setCount(this.department.getCount() - 1);
         this.department = department;
+        this.department.setCount(this.department.getCount() + 1);
+    }
+    public void removeDepartment() {
+        if (this.department != null) {
+            this.department.setCount(this.department.getCount() - 1);
+        }
+        this.department = null;
     }
     public String getPosition() {
         return position;
