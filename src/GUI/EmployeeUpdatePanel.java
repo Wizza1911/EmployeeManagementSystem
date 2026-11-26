@@ -450,6 +450,8 @@ public class EmployeeUpdatePanel extends JPanel {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
+            Department d=employeeManager.searchById(loadedOriginalId).getDepartment();
+            d.setCount(d.getCount() - 1);
             employeeManager.deleteEmployee(loadedOriginalId);
             JOptionPane.showMessageDialog(
                     this,
