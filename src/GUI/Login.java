@@ -27,12 +27,10 @@ public class Login {
         loginFrame.setMinimumSize(new Dimension(460, 340));
         loginFrame.setResizable(false);
 
-        // Outer container with soft background and padding (matches DashboardPanel)
         JPanel rootPanel = new JPanel(new BorderLayout());
         rootPanel.setBackground(new Color(240, 245, 250));
         rootPanel.setBorder(BorderFactory.createEmptyBorder(25, 30, 25, 30));
 
-        // White card container
         JPanel cardPanel = new JPanel(new BorderLayout(0, 20));
         cardPanel.setBackground(Color.WHITE);
         cardPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -40,7 +38,6 @@ public class Login {
                 BorderFactory.createEmptyBorder(25, 30, 25, 30)
         ));
 
-        // --- TITLE PANEL ---
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
         titlePanel.setOpaque(false);
@@ -59,7 +56,6 @@ public class Login {
         titlePanel.add(Box.createVerticalStrut(6));
         titlePanel.add(subtitleLabel);
 
-        // --- INPUT PANEL ---
         JPanel inputPanel = new JPanel(new GridBagLayout());
         inputPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -101,7 +97,6 @@ public class Login {
         gbc.weightx = 1.0;
         inputPanel.add(passwordField, gbc);
 
-        // --- BUTTON PANEL ---
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
         buttonPanel.setOpaque(false);
 
@@ -124,12 +119,10 @@ public class Login {
         buttonPanel.add(loginButton);
         buttonPanel.add(exitButton);
 
-        // Events (including Enter key support)
         loginButton.addActionListener(e -> checkLogin());
         passwordField.addActionListener(e -> checkLogin());
         exitButton.addActionListener(e -> loginFrame.dispose());
 
-        // Assemble card and frame
         cardPanel.add(titlePanel, BorderLayout.NORTH);
         cardPanel.add(inputPanel, BorderLayout.CENTER);
         cardPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -168,10 +161,6 @@ public class Login {
             passwordField.requestFocus();
         }
     }
-
-    
-
-    
 }
 
 
