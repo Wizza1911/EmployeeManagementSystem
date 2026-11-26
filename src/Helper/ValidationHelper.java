@@ -10,7 +10,7 @@ public class ValidationHelper {
                 && !data.contains("\r");
     }
     public static boolean isValidName(String data) {
-        return isValidString(data)&&data.matches("[a-zA-Z ]{3,20}");
+        return isValidString(data)&&data.matches("[a-zA-Z ]{3,40}");
     }
     public static boolean isValidInt(String data) {
         if (!isValidString(data))

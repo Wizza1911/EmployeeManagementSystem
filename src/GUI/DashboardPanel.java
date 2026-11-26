@@ -7,6 +7,9 @@ import Backend.EmployeeManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DashboardPanel extends JPanel {
 
@@ -38,14 +41,12 @@ public class DashboardPanel extends JPanel {
         setBackground(BG);
         setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
-        
         JPanel header = new JPanel(new GridLayout(2, 1, 0, 4));
         header.setOpaque(false);
         header.add(text("Welcome back, Admin", Font.BOLD, 28, TEXT));
         header.add(text("Here is an overview of your company today.", Font.PLAIN, 15, MUTED));
         add(header, BorderLayout.NORTH);
 
-        
         JPanel cards = new JPanel(new GridLayout(1, 3, 20, 0));
         cards.setOpaque(false);
         cards.setPreferredSize(new Dimension(0, 120));
@@ -53,7 +54,6 @@ public class DashboardPanel extends JPanel {
         cards.add(statCard("Total Departments", departmentsValue, GREEN));
         cards.add(statCard("Monthly Payroll", payrollValue, ORANGE));
 
-        
         JPanel details = new JPanel(new GridLayout(1, 2, 20, 0));
         details.setOpaque(false);
         details.add(panelCard("Employees by Department", departmentRows));
@@ -68,7 +68,6 @@ public class DashboardPanel extends JPanel {
         refreshData();
     }
 
-
     private JLabel text(String s, int style, int size, Color color) {
         JLabel l = new JLabel(s);
         l.setFont(new Font("SansSerif", style, size));
@@ -76,7 +75,6 @@ public class DashboardPanel extends JPanel {
         return l;
     }
 
-  
     private JPanel statCard(String title, JLabel value, Color accent) {
         value.setFont(new Font("SansSerif", Font.BOLD, 26));
         value.setForeground(TEXT);
@@ -99,10 +97,14 @@ public class DashboardPanel extends JPanel {
         return card;
     }
 
-    
     private JPanel panelCard(String title, JPanel rows) {
         rows.setLayout(new BoxLayout(rows, BoxLayout.Y_AXIS));
         rows.setOpaque(false);
+
+        JScrollPane scrollPane = new JScrollPane(rows);
+        scrollPane.setBorder(null);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
 
         JPanel card = new JPanel(new BorderLayout(0, 12));
         card.setBackground(Color.WHITE);
@@ -110,14 +112,9 @@ public class DashboardPanel extends JPanel {
                 BorderFactory.createLineBorder(BORDER),
                 BorderFactory.createEmptyBorder(16, 20, 16, 20)));
         card.add(text(title, Font.BOLD, 18, TEXT), BorderLayout.NORTH);
-        card.add(new JScrollPane(rows) {{
-            setBorder(null);
-            setOpaque(false);
-            getViewport().setOpaque(false);
-        }}, BorderLayout.CENTER);
+        card.add(scrollPane, BorderLayout.CENTER);
         return card;
     }
-
 
     private JPanel barRow(String name, int value, int max, Color color) {
         JProgressBar bar = new JProgressBar(0, Math.max(max, 1));
@@ -128,9 +125,12 @@ public class DashboardPanel extends JPanel {
         bar.setPreferredSize(new Dimension(100, 10));
 
         JLabel label = text(name, Font.PLAIN, 14, TEXT);
-        label.setPreferredSize(new Dimension(130, 20));
+        label.setPreferredSize(new Dimension(140, 20));
+        label.setToolTipText(name);
+
         JLabel number = text(String.valueOf(value), Font.BOLD, 14, TEXT);
-        number.setPreferredSize(new Dimension(28, 20));
+        number.setHorizontalAlignment(SwingConstants.RIGHT);
+        number.setPreferredSize(new Dimension(40, 20));
 
         JPanel row = new JPanel(new BorderLayout(12, 0));
         row.setOpaque(false);
@@ -142,35 +142,89 @@ public class DashboardPanel extends JPanel {
         return row;
     }
 
-
-    
     public void refreshData() {
-        int fullTime = 0, partTime = 0;
-        double payroll = 0;
-        for (Employee emp : employeeManager.getAllEmployees()) {
-            payroll += emp.calculateSalary(); 
-            if (emp.isFullTime())
-                 fullTime++;
-            else
-                 partTime++;
+        ArrayList<Employee> employees = employeeManager.getAllEmployees();
+        ArrayList<Department> departments = departmentManager.getDepartments();
+
+        if (employees == null) {
+            employees = new ArrayList<>();
         }
+        if (departments == null) {
+            departments = new ArrayList<>();
+        }
+
+        int fullTime = 0;
+        int partTime = 0;
+        double payroll = 0.0;
+
+        for (Employee emp : employees) {
+            if (emp == null) {
+                continue;
+            }
+            payroll += emp.calculateSalary();
+            if (emp.isFullTime()) {
+                fullTime++;
+            } else {
+                partTime++;
+            }
+        }
+
         int total = fullTime + partTime;
         employeesValue.setText(String.valueOf(total));
-        departmentsValue.setText(String.valueOf(departmentManager.getDepartments().size()));
+        departmentsValue.setText(String.valueOf(departments.size()));
         payrollValue.setText(String.format("$%,.2f", payroll));
 
         typeRows.removeAll();
         typeRows.add(barRow("Full-Time", fullTime, total, BLUE));
         typeRows.add(barRow("Part-Time", partTime, total, ORANGE));
+        typeRows.revalidate();
+        typeRows.repaint();
+
+        // Count occurrences of each department name to disambiguate duplicate names
+        Map<String, Integer> nameCounts = new HashMap<>();
+        for (Department d : departments) {
+            if (d != null && d.getDepartmentName() != null) {
+                String key = d.getDepartmentName().trim().toLowerCase();
+                nameCounts.put(key, nameCounts.getOrDefault(key, 0) + 1);
+            }
+        }
 
         departmentRows.removeAll();
-        for (Department d : departmentManager.getDepartments()) {
-            int count = 0;
-            for (Employee emp : employeeManager.getAllEmployees()) {
-                if (emp.getDepartment().getDepartmentId() == d.getDepartmentId()) count++;
+        int matchedEmployees = 0;
+
+        if (departments.isEmpty()) {
+            departmentRows.add(text("No departments available.", Font.ITALIC, 14, MUTED));
+        } else {
+            for (Department d : departments) {
+                if (d == null) {
+                    continue;
+                }
+                int count = 0;
+                for (Employee emp : employees) {
+                    if (emp != null && emp.getDepartment() != null
+                            && emp.getDepartment().getDepartmentId() == d.getDepartmentId()
+                            && emp.getDepartment().getDepartmentName().trim()
+                            .equalsIgnoreCase(d.getDepartmentName().trim())) {
+                        count++;
+                    }
+                }
+                matchedEmployees += count;
+
+                String key = d.getDepartmentName().trim().toLowerCase();
+                String displayName = nameCounts.getOrDefault(key, 0) > 1
+                        ? d.getDepartmentName() + " (#" + d.getDepartmentId() + ")"
+                        : d.getDepartmentName();
+                departmentRows.add(barRow(displayName, count, total, GREEN));
             }
-            departmentRows.add(barRow(d.getDepartmentName(), count, total, GREEN));
+
+            int unassigned = total - matchedEmployees;
+            if (unassigned > 0) {
+                departmentRows.add(barRow("Other / Unassigned", unassigned, total, MUTED));
+            }
         }
+        departmentRows.revalidate();
+        departmentRows.repaint();
+
         revalidate();
         repaint();
     }

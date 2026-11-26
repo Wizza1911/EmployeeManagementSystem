@@ -56,4 +56,13 @@ public class DepartmentManager {
         }
         return null;
     }
+    public ArrayList<Department> findDepartments(String name) {
+        if (name == null || name.trim().isEmpty())
+            return null;
+        ArrayList<Department> deps = new ArrayList<>();
+        for (Department d : departments)
+            if (d.getDepartmentName().trim().equalsIgnoreCase(name.trim()))
+                deps.add(d);
+        return deps;
+    }
 }

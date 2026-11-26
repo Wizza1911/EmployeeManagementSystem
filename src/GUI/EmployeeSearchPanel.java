@@ -18,7 +18,7 @@ public class EmployeeSearchPanel extends JPanel {
     private final JComboBox<String> searchTypeCombo;
     private final JPanel dynamicControlPanel;
     private final JTextField searchTextField;
-    private final JComboBox<Department> departmentCombo;
+    private final JComboBox<String> departmentCombo;
     private final JComboBox<String> employeeTypeCombo;
     private final JButton searchButton;
 
@@ -59,17 +59,6 @@ public class EmployeeSearchPanel extends JPanel {
         departmentCombo = new JComboBox<>();
         departmentCombo.setBackground(Color.WHITE);
         // Display only departmentName instead of Department.toString() ("id,name")
-        departmentCombo.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Department) {
-                    setText(((Department) value).getDepartmentName());
-                }
-                return this;
-            }
-        });
         loadDepartmentsIntoCombo();
 
         employeeTypeCombo = new JComboBox<>(new String[]{"Full-Time", "Part-Time"});
@@ -129,8 +118,13 @@ public class EmployeeSearchPanel extends JPanel {
 
     private void loadDepartmentsIntoCombo() {
         departmentCombo.removeAllItems();
+        java.util.Set<String> seenNames = new java.util.HashSet<>();
+        departmentCombo.addItem("-- Select --");
         for (Department dept : departmentManager.getDepartments()) {
-            departmentCombo.addItem(dept);
+            String name = dept.getDepartmentName().trim();
+            if (seenNames.add(name.toLowerCase())) {
+                departmentCombo.addItem(name);
+            }
         }
     }
 
@@ -183,10 +177,12 @@ public class EmployeeSearchPanel extends JPanel {
                 break;
             }
             case "Department": {
-                Department selectedDept = (Department) departmentCombo.getSelectedItem();
-                if (selectedDept != null) {
-                    results = employeeManager.filterByDepartment(selectedDept.getDepartmentName());
+                String selectedDeptName = (String) departmentCombo.getSelectedItem();
+                if (selectedDeptName != null  ) {
+                    results = employeeManager.filterByDepartment(selectedDeptName);
                 }
+                else if(selectedDeptName.equals("-- Select --"))
+                    results = employeeManager.getAllEmployees();
                 break;
             }
             case "Employee Type": {

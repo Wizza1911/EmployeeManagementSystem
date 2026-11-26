@@ -3,6 +3,8 @@ package GUI;
 import Backend.DepartmentManager;
 import Backend.EmployeeManager;
 import FileHandler.AccountHandler;
+import FileHandler.DepartmentHandler;
+import FileHandler.EmployeeHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,15 +13,18 @@ public class MainFrame extends JFrame {
 
     private final EmployeeManager empManager;
     private final DepartmentManager deptManager;
-    private final AccountHandler accountHandler;
-    private EmployeeSearchPanel employeeSearchPanel;
+    private final EmployeeSearchPanel employeeSearchPanel;
+    private final EmployeeAdderPanel employeeAdderPanel;
+    private final EmployeeUpdatePanel employeeUpdatePanel;
+    private final DashboardPanel dashboardPanel;
 
     private JPanel currentCenterPanel;
 
-    public MainFrame(EmployeeManager empManager, DepartmentManager deptManager, AccountHandler accountHandler) {
-        this.empManager = empManager;
-        this.deptManager = deptManager;
-        this.accountHandler = accountHandler;
+    public MainFrame() {
+        DepartmentHandler deptHandler = new DepartmentHandler();
+        this.deptManager = new DepartmentManager(deptHandler);
+        EmployeeHandler empHandler = new EmployeeHandler(deptManager.getDepartments());
+        this.empManager = new EmployeeManager(empHandler);
 
         setTitle("Employee Management System");
         setSize(950, 620);
@@ -28,12 +33,13 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         this.employeeSearchPanel = new EmployeeSearchPanel(empManager, deptManager);
+        this.employeeAdderPanel = new EmployeeAdderPanel(empManager, deptManager);
+        this.employeeUpdatePanel = new EmployeeUpdatePanel(empManager, deptManager);
+        this.dashboardPanel = new DashboardPanel(empManager, deptManager);
 
         JPanel sidebar = createSidebar();
         add(sidebar, BorderLayout.WEST);
 
-
-        
         switchCenterPanel(createPlaceholderPanel("Dashboard Overview"));
     }
 
@@ -62,19 +68,22 @@ public class MainFrame extends JFrame {
     
 
         JButton dashboardBtn = createNavButton("Dashboard");
-        dashboardBtn.addActionListener(e ->
-                switchCenterPanel(createPlaceholderPanel("Dashboard Overview"))
-        );
+        dashboardBtn.addActionListener(e ->{
+                switchCenterPanel(dashboardPanel);
+                dashboardPanel.refreshData();
+        });
 
         JButton addEmpBtn = createNavButton("Add Employee");
-        addEmpBtn.addActionListener(e ->
-                switchCenterPanel(createPlaceholderPanel("Add Employee Panel"))
-        );
+        addEmpBtn.addActionListener(e ->{
+                switchCenterPanel(employeeAdderPanel);
+                employeeAdderPanel.refreshData();
+        });
 
         JButton updateEmpBtn = createNavButton("Update Employee");
-        updateEmpBtn.addActionListener(e ->
-                switchCenterPanel(createPlaceholderPanel("Update Employee Panel"))
-        );
+        updateEmpBtn.addActionListener(e -> {
+                    employeeUpdatePanel.refreshData();
+                    switchCenterPanel(employeeUpdatePanel);
+                });
 
         JButton viewEmpBtn = createNavButton("View Employees");
         viewEmpBtn.addActionListener(e -> {
