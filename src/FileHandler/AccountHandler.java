@@ -64,6 +64,7 @@ public class AccountHandler implements FileOperator<String[]>{
         try {
             if (file.createNewFile()) {
                 System.out.println("Login data file created successfully.");
+                loginData.add(new String[]{"Admin","Admin"});
                 return loginData;
             }
             try (Scanner sc = new Scanner(file)){
@@ -75,6 +76,8 @@ public class AccountHandler implements FileOperator<String[]>{
                             && ValidationHelper.isValidPassword(data[1]))
                         loginData.add(new String[]{data[0], data[1]});
                 }
+                if(loginData.size()==0)
+                    loginData.add(new String[]{"Admin","Admin"});
         }
         } catch (IOException e) {
             System.out.println("Error loading login data: " + e.getMessage());

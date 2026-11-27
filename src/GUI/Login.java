@@ -1,14 +1,10 @@
 package GUI;
 
 import java.awt.*;
-
 import javax.swing.*;
-
-import Backend.DepartmentManager;
-import Backend.EmployeeManager;
 import Backend.LoginManager;
 import FileHandler.AccountHandler;
-import FileHandler.FileOperator;
+
 
 public class Login {
     private final JTextField usernameField=new JTextField(25);
@@ -162,5 +158,3 @@ public class Login {
         }
     }
 }
-
-

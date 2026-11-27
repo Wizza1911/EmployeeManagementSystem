@@ -1,11 +1,8 @@
 package GUI;
 
-import Backend.Department;
-import Backend.DepartmentManager;
-import Backend.Employee;
-import Backend.EmployeeManager;
-import Helper.ValidationHelper;
 
+import Backend.*;
+import Helper.ValidationHelper;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;

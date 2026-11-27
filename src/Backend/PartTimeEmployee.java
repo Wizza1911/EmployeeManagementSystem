@@ -1,7 +1,5 @@
 package Backend;
 
-import java.io.PrintWriter;
-
 public class PartTimeEmployee extends Employee {
     private double hourlyRate;
     private double hoursWorked;

@@ -58,6 +58,7 @@ public abstract class Employee {
         if (this.department != null) {
             this.department.setCount(this.department.getCount() - 1);
         }
+
         this.department = null;
     }
     public String getPosition() {

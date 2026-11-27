@@ -1,7 +1,5 @@
 package Backend;
 
-import java.io.PrintWriter;
-
 public class FullTimeEmployee extends Employee {
     private double basicSalary;
     private double bonus;

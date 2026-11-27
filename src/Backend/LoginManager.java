@@ -3,7 +3,6 @@ package Backend;
 import FileHandler.FileOperator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -16,6 +15,7 @@ public class LoginManager {
         this.accountHandler = accountHandler;
         this.accounts = accountHandler.load();
         sortAccounts();
+        accountHandler.saveAll(accounts);
     }
     public void addAccount(String username, String password) {
         if (username == null|| password==null) {

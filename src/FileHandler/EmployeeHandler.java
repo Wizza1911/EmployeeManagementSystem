@@ -1,9 +1,7 @@
 package FileHandler;
 
-import Backend.Department;
-import Backend.Employee;
-import Backend.FullTimeEmployee;
-import Backend.PartTimeEmployee;
+
+import Backend.*;
 import Helper.ValidationHelper;
 import java.io.*;
 import java.util.ArrayList;

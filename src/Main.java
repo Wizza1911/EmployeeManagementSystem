@@ -1,6 +1,5 @@
-import GUI.*;
 
-
+import GUI.Login;
 import javax.swing.SwingUtilities;
 
 public class Main {

@@ -1,10 +1,6 @@
 package GUI;
 
-import Backend.Department;
-import Backend.DepartmentManager;
-import Backend.Employee;
-import Backend.EmployeeManager;
-
+import Backend.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
