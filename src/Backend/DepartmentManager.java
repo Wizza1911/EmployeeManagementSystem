@@ -23,8 +23,10 @@ public class DepartmentManager {
         if (department == null) {
             throw new IllegalArgumentException("Department cannot be null.");
         }
+        String name=department.getDepartmentName();
+        int id=department.getDepartmentId();
         for (Department d : departments)
-            if (d.getDepartmentId() == department.getDepartmentId())
+            if (d.getDepartmentName().equals(name)&&d.getDepartmentId() == id )
                 throw new IllegalArgumentException("Department ID already exists.");
 
         departments.add(department);

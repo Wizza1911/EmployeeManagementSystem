@@ -357,7 +357,7 @@ public class EmployeeUpdatePanel extends JPanel {
         // 2. Validate Full Name
         String fullName = nameField.getText().trim();
         if (!ValidationHelper.isValidName(fullName)) {
-            showWarning("Full Name must be 3 to 20 letters and spaces only.");
+            showWarning("Full Name must be 3 to 40 letters and spaces only.");
             return;
         }
 
@@ -450,8 +450,6 @@ public class EmployeeUpdatePanel extends JPanel {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
-            Department d=employeeManager.searchById(loadedOriginalId).getDepartment();
-            d.setCount(d.getCount() - 1);
             employeeManager.deleteEmployee(loadedOriginalId);
             JOptionPane.showMessageDialog(
                     this,

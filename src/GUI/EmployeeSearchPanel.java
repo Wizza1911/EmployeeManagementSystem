@@ -178,11 +178,10 @@ public class EmployeeSearchPanel extends JPanel {
             }
             case "Department": {
                 String selectedDeptName = (String) departmentCombo.getSelectedItem();
-                if (selectedDeptName != null  ) {
-                    results = employeeManager.filterByDepartment(selectedDeptName);
-                }
-                else if(selectedDeptName.equals("-- Select --"))
+                if (selectedDeptName == null ||  selectedDeptName.equals("-- Select --")  )
                     results = employeeManager.getAllEmployees();
+                else
+                    results = employeeManager.filterByDepartment(selectedDeptName);
                 break;
             }
             case "Employee Type": {

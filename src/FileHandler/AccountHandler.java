@@ -13,12 +13,12 @@ public class AccountHandler implements FileOperator<String[]>{
     public boolean save(String[] account ) {
         if(account==null || account.length!=2)
             return false;
+        FileOperator.ensureDirectoryExists(LOGIN_DATA_CSV);
         String username = account[0];
         String password = account[1];
         if (!ValidationHelper.isValidUsername(username)
                 || !ValidationHelper.isValidPassword(password))
             return false;
-
         try (PrintWriter writer = new PrintWriter(
                 new FileWriter(LOGIN_DATA_CSV, true))) {
 
@@ -34,6 +34,7 @@ public class AccountHandler implements FileOperator<String[]>{
     public boolean saveAll(ArrayList<String[]> loginData) {
         if(loginData==null)
             return false;
+        FileOperator.ensureDirectoryExists(LOGIN_DATA_CSV);
         for (String[] account: loginData ) {
             if (account == null || account.length != 2)
                 return false;
@@ -60,8 +61,12 @@ public class AccountHandler implements FileOperator<String[]>{
     @Override
     public ArrayList<String[]> load() {
         ArrayList<String[]> loginData = new ArrayList<>();
+        FileOperator.ensureDirectoryExists(LOGIN_DATA_CSV);
         File file = new File(LOGIN_DATA_CSV);
         try {
+            if (file.getParentFile() != null) {
+                file.getParentFile().mkdirs();
+            }
             if (file.createNewFile()) {
                 System.out.println("Login data file created successfully.");
                 loginData.add(new String[]{"Admin","Admin"});

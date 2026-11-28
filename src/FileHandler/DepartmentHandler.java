@@ -14,6 +14,7 @@ public class DepartmentHandler implements FileOperator<Department> {
     public boolean save(Department department) {
         if(department==null)
             return false;
+        FileOperator.ensureDirectoryExists(DEPARTMENTS_CSV);
         try(PrintWriter writer = new PrintWriter(new FileWriter(DEPARTMENTS_CSV,true))) {
             writer.println(department.toString());
         }
@@ -27,6 +28,7 @@ public class DepartmentHandler implements FileOperator<Department> {
     public boolean saveAll(ArrayList<Department> departments) {
         if(departments==null)
             return false;
+        FileOperator.ensureDirectoryExists(DEPARTMENTS_CSV);
         try (PrintWriter writer = new PrintWriter(new FileWriter(DEPARTMENTS_CSV))) {
             for (Department d : departments)
                 if(d!=null)
@@ -41,6 +43,7 @@ public class DepartmentHandler implements FileOperator<Department> {
     @Override
     public ArrayList<Department> load() {
         ArrayList<Department> departments = new ArrayList<>();
+        FileOperator.ensureDirectoryExists(DEPARTMENTS_CSV);
         File file = new File(DEPARTMENTS_CSV);
         try {
             if (file.createNewFile()) {

@@ -138,6 +138,7 @@ public class MainFrame extends JFrame {
         );
         if (confirm == JOptionPane.YES_OPTION) {
             dispose();
+            new Login();
         }
     }
 

@@ -1,5 +1,7 @@
 package Backend;
 
+import Helper.ValidationHelper;
+
 public abstract class Employee {
     private int id;
     private String fullName;
@@ -65,10 +67,10 @@ public abstract class Employee {
         return position;
     }
     public  void setPosition(String position) {
-        if (position == null || position.isEmpty()) {
-            throw new IllegalArgumentException("Position cannot be empty.");
+        if (position == null || position.isEmpty()|| !ValidationHelper.isValidString(position)) {
+            throw new IllegalArgumentException("Invalid position.");
         }
-        this.position = position;
+        this.position = position.trim();
     }
     public abstract double calculateSalary();
     public abstract boolean isFullTime();

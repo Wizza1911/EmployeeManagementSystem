@@ -40,7 +40,6 @@ public class EmployeeManager {
         if (updatedEmp.getId() != originalId && searchById(updatedEmp.getId()) != null) {
             throw new IllegalArgumentException("Employee ID " + updatedEmp.getId() + " already exists.");
         }
-
         int targetIndex = employees.indexOf(existing);
         employees.get(targetIndex).removeDepartment();
         employees.set(targetIndex, updatedEmp);
@@ -52,7 +51,7 @@ public class EmployeeManager {
         if (target == null) {
             throw new IllegalArgumentException("Employee with ID " + id + " not found.");
         }
-
+        target.removeDepartment();
         employees.remove(target);
         employeeHandler.saveAll(employees);
     }

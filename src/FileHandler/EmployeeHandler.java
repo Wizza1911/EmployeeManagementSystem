@@ -24,6 +24,7 @@ public class EmployeeHandler implements FileOperator<Employee>{
     @Override
     public boolean save(Employee employee){
         if(employee == null) return false;
+        FileOperator.ensureDirectoryExists(EMPLOYEES_CSV);
         try (PrintWriter writer = new PrintWriter(new FileWriter(EMPLOYEES_CSV,true))){
             writer.println(employee.toString());
         }
@@ -36,6 +37,7 @@ public class EmployeeHandler implements FileOperator<Employee>{
     @Override
     public boolean saveAll(ArrayList<Employee> employees) {
         if(employees==null) return false;
+        FileOperator.ensureDirectoryExists(EMPLOYEES_CSV);
         try (PrintWriter writer = new PrintWriter(new FileWriter(EMPLOYEES_CSV))) {
             //it creates a new file if this one doesn't exist
             for (Employee e : employees)
@@ -53,6 +55,7 @@ public class EmployeeHandler implements FileOperator<Employee>{
     @Override
     public ArrayList<Employee> load() {
         ArrayList<Employee> employees = new ArrayList<>();
+        FileOperator.ensureDirectoryExists(EMPLOYEES_CSV);
         File file = new File(EMPLOYEES_CSV);
         try {
             if (file.createNewFile()) {
